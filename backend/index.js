@@ -1,16 +1,21 @@
 const express = require('express');
+const cors = require('cors');
 require('./db/config');
-const users = require('./db/users');
+const User = require('./db/users'); // singular
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.post("/register", async (req, res) => {
-  let user = new users(req.body);
-  let result = await user.save();
-  res.send(result);
+  try {
+    let user = new User(req.body);
+    let result = await user.save();
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
 });
 
+app.listen(5000, () => console.log("Server running on port 5000"));
 
-
-app.listen(5000) ;
