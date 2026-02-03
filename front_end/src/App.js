@@ -2,6 +2,7 @@ import './App.css';
 import Nav from './Nav';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Footer from './footer';
+import SignUp from './sign_up';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/update" element={<h1>Update Product component</h1>} />
           <Route path="/logout" element={<h1>Logout component</h1>} />
           <Route path="/profile" element={<h1>Profile component</h1>} />
+          <Route path="/sign_up" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
       <Footer />  
