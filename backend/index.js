@@ -1,49 +1,39 @@
 const express = require('express');
 const cors = require('cors');
 require('./db/config');
-const User = require('./db/users'); // singular
+const Users = require('./db/users');
+const Products = require('./db/product');
 
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 
 app.post("/register", async (req, res) => {
-  try {
-    let user = new User(req.body);
-    let result = await user.save();
-    result = result.toObject();
-    delete result.password;
-    res.send(result);
-  } catch (error) {
-    res.status(500).send({ error: error.message });
-  }
+  let user = new Users(req.body);
+  let result = await user.save();
+  result = result.toObject();
+  delete result.password;
+  res.send(result);
 });
-
 
 app.post("/login", async (req, res) => {
-  console.log(req.body);
-
   if (req.body.email && req.body.password) {
-    let userData = await User.findOne(req.body).select("-password");
-
-    if (userData) {
-      res.send(userData);
+    let user = await Users.findOne(req.body).select("-password");
+    if (user) {
+      res.send(user);
     } else {
-      res.send({ result: "No user found" });
+      res.send({ result: "No User found" });
     }
   } else {
-    res.send({ result: "no user found" });
+    res.send({ result: "No User found" });
   }
 });
 
+app.post("/add-product", async (req, res) => {
+  let product = new Products(req.body);
+  let result = await product.save();
+  res.send(result);
+});
 
-
-
-
-
-
-
-
-
-app.listen(5000, () => console.log("Server running on port 5000"));
-
+app.listen(5000);
