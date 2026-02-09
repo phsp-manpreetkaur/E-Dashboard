@@ -46,6 +46,12 @@ app.get("/products", async (req, res) => {
   }
 });
 
+app.delete("/products/:id", async (req, res) => {
+  const result = await Products.deleteOne({ _id: req.params.id });
+  res.send(result);
+});
+
+
 
 
 
